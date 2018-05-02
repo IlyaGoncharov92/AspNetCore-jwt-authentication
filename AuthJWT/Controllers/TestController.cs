@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace AuthJWT.Controllers
         {
             return true;
         }
-
+        
         [Authorize]
         [HttpGet("test2")]
         public bool Test2()
@@ -25,14 +26,14 @@ namespace AuthJWT.Controllers
             return true;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpGet("test3")]
         public bool Test3()
         {
             return true;
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = nameof(Role.SuperAdmin))]
         [HttpGet("test4")]
         public bool Test4()
         {
