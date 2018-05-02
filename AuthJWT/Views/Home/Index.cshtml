@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <button onclick="onLogin()">Login</button>
+        <button onclick="onGetToken()">Get token</button>
+        <button onclick="onLogout()">Logout</button>
+    </div>
+    <br />
+    <div>
+        <button onclick="onTest1()">Test1</button>
+        <button onclick="onTest2()">Test2</button>
+    </div>
+
+    <script>
+        const key = 'token';
+
+        class Storage {
+            static get() {
+                var item = localStorage.getItem(key);
+                return JSON.parse(item);
+            }
+
+            static set(data) {
+                localStorage.setItem(key, JSON.stringify(data));
+            }
+
+            static remove() {
+                localStorage.removeItem(key);
+            }
+        }
+
+        class Http {
+            get getHeaders() {
+                var headers;
+
+                var auth = Storage.get();
+
+                if (auth) {
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${auth.access_token}`
+                    };
+                }
+                else {
+                    headers = {
+                        'Content-Type': 'application/json'
+                    };
+                }
+
+                return headers;
+            }
+
+            get(url) {
+                var options = {
+                    method: 'GET',
+                    headers: this.getHeaders
+                };
+                return fetch(url, options);
+            }
+
+            post(url, data) {
+                var options = {
+                    method: 'POST',
+                    headers: this.getHeaders,
+                    body: JSON.stringify(data)
+                };
+                return fetch(url, options);
+            }
+        }
+    </script>
+
+    <script>
+        const http = new Http();
+
+        function onLogin() {
+            var data = {
+                username: 'admin@gmail.com',
+                password: '123',
+                grant_type: 'password'
+            }
+
+            http.post('/api/token', data)
+                .then(result => result.json())
+                .then(function (result) {
+                    console.log('result', result);
+                    Storage.set(result.data);
+                });
+        }
+
+        function onGetToken() {
+            var storage = Storage.get();
+
+            var data = {
+                refresh_token: storage.refresh_token,
+                grant_type: 'refresh_token'
+            }
+
+            http.post('/api/token', data)
+                .then(result => result.json())
+                .then(function (result) {
+                    console.log('result', result);
+                    Storage.set(result.data);
+                });
+        }
+
+        function onLogout() {
+            Storage.remove();
+        }
+
+        function onTest1() {
+            http.get('/api/test/test1')
+                .then(result => result.json())
+                .then(data => {
+                    console.log('data', data);
+                });
+        }
+
+        function onTest2() {
+            http.get('/api/test/test2')
+                .then(result => result.json())
+                .then(data => {
+                    console.log('data', data);
+                });
+        }
+    </script>
+</body>
+</html>
