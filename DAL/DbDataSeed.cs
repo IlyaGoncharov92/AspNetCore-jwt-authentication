@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using DAL.Models;
 
-namespace AuthJWT.Models
+namespace DAL
 {
-    public static class DbData
+    public static class DbDataSeed
     {
         public static void Seed(JWTContext context)
         {

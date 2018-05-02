@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthJWT", "AuthJWT\AuthJWT.csproj", "{72034E09-72E0-4BB3-AD4F-A27F0E2053B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthJWT", "AuthJWT\AuthJWT.csproj", "{72034E09-72E0-4BB3-AD4F-A27F0E2053B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{A353E3A0-015D-43C0-9561-1BEF557C977B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{72034E09-72E0-4BB3-AD4F-A27F0E2053B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72034E09-72E0-4BB3-AD4F-A27F0E2053B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72034E09-72E0-4BB3-AD4F-A27F0E2053B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A353E3A0-015D-43C0-9561-1BEF557C977B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A353E3A0-015D-43C0-9561-1BEF557C977B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A353E3A0-015D-43C0-9561-1BEF557C977B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A353E3A0-015D-43C0-9561-1BEF557C977B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

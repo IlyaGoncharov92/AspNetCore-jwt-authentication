@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AuthJWT.Models;
+﻿using System.Linq;
+using DAL.Models;
 
-namespace AuthJWT.Repositories
+namespace DAL.Repositories
 {
     public class UserRepository
     {

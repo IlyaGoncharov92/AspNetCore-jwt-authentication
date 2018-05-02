@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AuthJWT.Models;
+using DAL.Models;
 
-namespace AuthJWT.Repositories
+namespace DAL.Repositories
 {
     public class RefreshTokenRepository
     {
@@ -28,7 +26,7 @@ namespace AuthJWT.Repositories
 
             Context.SaveChanges();
         }
-        
+
         private RefreshToken CheckExpires(RefreshToken entity)
         {
             if (entity?.ExpiresUtc < DateTime.UtcNow)

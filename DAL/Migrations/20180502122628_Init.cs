@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace AuthJWT.Migrations
+namespace DAL.Migrations
 {
     public partial class Init : Migration
     {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AuthJWT.Models;
-using AuthJWT.Repositories;
 using AuthJWT.ViewModels;
+using DAL.Models;
+using DAL.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 

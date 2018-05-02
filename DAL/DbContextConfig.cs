@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuthJWT.Models
+namespace DAL
 {
     public static class DbContextConfig
     {
@@ -26,7 +23,7 @@ namespace AuthJWT.Models
                 try
                 {
                     var context = services.GetRequiredService<JWTContext>();
-                    DbData.Seed(context);
+                    DbDataSeed.Seed(context);
                 }
                 catch (Exception ex)
                 {

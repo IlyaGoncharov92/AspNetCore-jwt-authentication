@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthJWT.Models
+namespace DAL
 {
     public class JWTContext : DbContext
     {
-        public JWTContext(DbContextOptions<JWTContext> options) : base(options) 
+        public JWTContext(DbContextOptions<JWTContext> options) : base(options)
         {
-            
+
         }
 
         public DbSet<User> Users { get; set; }
