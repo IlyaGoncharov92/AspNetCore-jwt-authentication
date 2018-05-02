@@ -44,12 +44,15 @@ namespace AuthJWT
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
                         ValidIssuer = Configuration["Jwt:Issuer"],
+
+                        ValidateAudience = true,
                         ValidAudience = Configuration["Jwt:Audience"],
+
+                        ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Secret"])),
+
+                        ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
                     };
                 });
