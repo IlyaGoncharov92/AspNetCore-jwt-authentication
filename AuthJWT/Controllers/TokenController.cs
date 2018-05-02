@@ -1,5 +1,5 @@
-﻿using AuthJWT.Providers;
-using AuthJWT.ViewModels;
+﻿using AuthJWT.Models;
+using AuthJWT.Providers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthJWT.Controllers

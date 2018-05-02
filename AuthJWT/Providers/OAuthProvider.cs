@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AuthJWT.ViewModels;
+using AuthJWT.Models;
 using DAL.Models;
 using DAL.Repositories;
 using Microsoft.Extensions.Configuration;
