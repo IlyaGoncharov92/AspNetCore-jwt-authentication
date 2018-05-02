@@ -22,8 +22,7 @@ namespace AuthJWT.Providers
         private static TimeSpan AccessTokenExpires => TimeSpan.FromSeconds(30);
         private static DateTime RefreshTokenExpires => DateTime.UtcNow.AddMinutes(2);
 
-        public OAuthProvider(IConfiguration config, UserRepository userRepository,
-            RefreshTokenRepository refreshTokenRepository)
+        public OAuthProvider(IConfiguration config, UserRepository userRepository, RefreshTokenRepository refreshTokenRepository)
         {
             Config = config;
             UserRepository = userRepository;

@@ -8,6 +8,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <script src="~/js/http-services.js"></script>
 </head>
 <body>
     <div>
@@ -22,64 +23,6 @@
     </div>
 
     <script>
-        const key = 'token';
-
-        class Storage {
-            static get() {
-                var item = localStorage.getItem(key);
-                return JSON.parse(item);
-            }
-
-            static set(data) {
-                localStorage.setItem(key, JSON.stringify(data));
-            }
-
-            static remove() {
-                localStorage.removeItem(key);
-            }
-        }
-
-        class Http {
-            get getHeaders() {
-                var headers;
-
-                var auth = Storage.get();
-
-                if (auth) {
-                    headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${auth.access_token}`
-                    };
-                }
-                else {
-                    headers = {
-                        'Content-Type': 'application/json'
-                    };
-                }
-
-                return headers;
-            }
-
-            get(url) {
-                var options = {
-                    method: 'GET',
-                    headers: this.getHeaders
-                };
-                return fetch(url, options);
-            }
-
-            post(url, data) {
-                var options = {
-                    method: 'POST',
-                    headers: this.getHeaders,
-                    body: JSON.stringify(data)
-                };
-                return fetch(url, options);
-            }
-        }
-    </script>
-
-    <script>
         const http = new Http();
 
         function onLogin() {
@@ -91,7 +34,7 @@
 
             http.post('/api/token', data)
                 .then(result => result.json())
-                .then(function (result) {
+                .then(result => {
                     console.log('result', result);
                     Storage.set(result.data);
                 });
@@ -107,7 +50,7 @@
 
             http.post('/api/token', data)
                 .then(result => result.json())
-                .then(function (result) {
+                .then(result => {
                     console.log('result', result);
                     Storage.set(result.data);
                 });
@@ -120,16 +63,16 @@
         function onTest1() {
             http.get('/api/test/test1')
                 .then(result => result.json())
-                .then(data => {
-                    console.log('data', data);
+                .then(result => {
+                    console.log('result', result);
                 });
         }
 
         function onTest2() {
             http.get('/api/test/test2')
                 .then(result => result.json())
-                .then(data => {
-                    console.log('data', data);
+                .then(result => {
+                    console.log('result', result);
                 });
         }
     </script>
