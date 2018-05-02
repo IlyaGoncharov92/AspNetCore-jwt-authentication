@@ -15,6 +15,7 @@ namespace AuthJWT.Controllers
             OAuthProvider = oAuthProvider;
         }
 
+        [HttpPost]
         public ResponseData Token([FromBody] JWTRequest parameters)
         {
             if (parameters == null)

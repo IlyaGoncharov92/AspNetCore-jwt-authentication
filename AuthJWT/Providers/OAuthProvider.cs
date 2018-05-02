@@ -77,7 +77,7 @@ namespace AuthJWT.Providers
             }
         }
 
-        private JWTResponse GetJwt(string refresh_token)
+        private JWTResponse GetJwt(string refreshToken)
         {
             var now = DateTime.UtcNow;
 
@@ -105,7 +105,7 @@ namespace AuthJWT.Providers
             {
                 access_token = encodedJwt,
                 expires_in = (int) AccessTokenExpires.TotalSeconds,
-                refresh_token = refresh_token,
+                refresh_token = refreshToken,
             };
         }
     }
