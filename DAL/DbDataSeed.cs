@@ -16,16 +16,26 @@ namespace DAL
             {
                 context.Users.Add(new User
                 {
+                    Email = "superAdmin@gmail.com",
+                    Password = "123",
+                    Name = "Yasya",
+                    Role = Role.SuperAdmin
+                });
+
+                context.Users.Add(new User
+                {
                     Email = "admin@gmail.com",
                     Password = "123",
-                    Name = "Yasya"
+                    Name = "Yasya2",
+                    Role = Role.Admin
                 });
 
                 context.Users.Add(new User
                 {
                     Email = "user@gmail.com",
-                    Password = "3124",
-                    Name = "Yasya"
+                    Password = "123",
+                    Name = "Yasya3",
+                    Role = Role.None
                 });
 
                 context.SaveChanges();

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AuthJWT.Models;
 using DAL.Models;
 using DAL.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,15 +17,17 @@ namespace AuthJWT.Providers
     public class OAuthProvider
     {
         private IConfiguration Config { get; }
+        private IHttpContextAccessor HttpContextAccessor { get; }
         private UserRepository UserRepository { get; }
         private RefreshTokenRepository RefreshTokenRepository { get; }
 
-        private static TimeSpan AccessTokenExpires => TimeSpan.FromSeconds(30);
+        private static TimeSpan AccessTokenExpires => TimeSpan.FromSeconds(15);
         private static DateTime RefreshTokenExpires => DateTime.UtcNow.AddMinutes(2);
 
-        public OAuthProvider(IConfiguration config, UserRepository userRepository, RefreshTokenRepository refreshTokenRepository)
+        public OAuthProvider(IConfiguration config, IHttpContextAccessor httpContextAccessor, UserRepository userRepository, RefreshTokenRepository refreshTokenRepository)
         {
             Config = config;
+            HttpContextAccessor = httpContextAccessor;
             UserRepository = userRepository;
             RefreshTokenRepository = refreshTokenRepository;
         }
@@ -52,15 +55,17 @@ namespace AuthJWT.Providers
             return new ResponseData
             {
                 Message = "OK",
-                Data = GetJwt(refreshToken.Id)
+                Data = GetJwt(user, refreshToken.Id)
             };
         }
 
         public ResponseData DoRefreshToken(JWTRequest parameters)
         {
             var token = RefreshTokenRepository.Get(parameters.refresh_token);
+            
+            var user = UserRepository.Get(parameters.username);
 
-            if (token == null)
+            if (token == null || user == null)
             {
                 return new ResponseData
                 {
@@ -72,24 +77,18 @@ namespace AuthJWT.Providers
                 return new ResponseData
                 {
                     Message = "OK",
-                    Data = GetJwt(parameters.refresh_token)
+                    Data = GetJwt(user, parameters.refresh_token)
                 };
             }
         }
 
-        private JWTResponse GetJwt(string refreshToken)
+        private JWTResponse GetJwt(User user, string refreshToken)
         {
             var now = DateTime.UtcNow;
 
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, now.ToUniversalTime().ToString(), ClaimValueTypes.Integer64)
-            };
+            var claims = CreateClaims(user);
 
-            var symmetricKeyAsBase64 = Config["Jwt:Secret"];
-            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
-            var signingKey = new SymmetricSecurityKey(keyByteArray);
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Config["Jwt:Secret"]));
 
             var jwt = new JwtSecurityToken(
                 issuer: Config["Jwt:Issuer"],
@@ -106,7 +105,20 @@ namespace AuthJWT.Providers
                 access_token = encodedJwt,
                 expires_in = (int) AccessTokenExpires.TotalSeconds,
                 refresh_token = refreshToken,
+                username = user.Email
             };
+        }
+
+        private static List<Claim> CreateClaims(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
+
+            return claims;
         }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthJWT
@@ -30,6 +31,8 @@ namespace AuthJWT
             services.AddMvc();
 
             services.AddTransient<OAuthProvider>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddTransient<UserRepository>();
             services.AddTransient<RefreshTokenRepository>();
 
@@ -46,7 +49,7 @@ namespace AuthJWT
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = Configuration["Jwt:Issuer"],
                         ValidAudience = Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Secret"])),
                         ClockSkew = TimeSpan.Zero
                     };
                 });
@@ -59,10 +62,10 @@ namespace AuthJWT
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -25,7 +25,7 @@ namespace AuthJWT.Controllers
                     Message = "null of parameters"
                 };
             }
-
+            
             switch (parameters.grant_type)
             {
                 case "password":

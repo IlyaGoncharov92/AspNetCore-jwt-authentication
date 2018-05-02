@@ -12,17 +12,29 @@ namespace AuthJWT.Controllers
     [Route("api/test")]
     public class TestController : Controller
     {
-        [HttpGet]
-        [Route("test1")]
+        [HttpGet("test1")]
         public bool Test1()
         {
             return true;
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("test2")]
+        [HttpGet("test2")]
         public bool Test2()
+        {
+            return true;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("test3")]
+        public bool Test3()
+        {
+            return true;
+        }
+
+        [Authorize(Roles = "SuperAdmin")]
+        [HttpGet("test4")]
+        public bool Test4()
         {
             return true;
         }

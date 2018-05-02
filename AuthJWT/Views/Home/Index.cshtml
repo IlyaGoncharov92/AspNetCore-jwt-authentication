@@ -19,7 +19,9 @@
     <br />
     <div>
         <button onclick="onTest1()">Test1</button>
-        <button onclick="onTest2()">Test2</button>
+        <button onclick="onTest2()">Test2 Authorize</button>
+        <button onclick="onTest3()">Test3 Admin</button>
+        <button onclick="onTest4()">Test4 SuperAdmin</button>
     </div>
 
     <script>
@@ -45,7 +47,8 @@
 
             var data = {
                 refresh_token: storage.refresh_token,
-                grant_type: 'refresh_token'
+                grant_type: 'refresh_token',
+                username: storage.username
             }
 
             http.post('/api/token', data)
@@ -70,6 +73,22 @@
 
         function onTest2() {
             http.get('/api/test/test2')
+                .then(result => result.json())
+                .then(result => {
+                    console.log('result', result);
+                });
+        }
+
+        function onTest3() {
+            http.get('/api/test/test3')
+                .then(result => result.json())
+                .then(result => {
+                    console.log('result', result);
+                });
+        }
+
+        function onTest4() {
+            http.get('/api/test/test4')
                 .then(result => result.json())
                 .then(result => {
                     console.log('result', result);

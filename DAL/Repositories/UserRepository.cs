@@ -16,5 +16,10 @@ namespace DAL.Repositories
         {
             return Context.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
         }
+
+        public User Get(string email)
+        {
+            return Context.Users.FirstOrDefault(x => x.Email == email);
+        }
     }
 }
